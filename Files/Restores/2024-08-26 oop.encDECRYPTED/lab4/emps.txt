@@ -1,3 +1,0 @@
-1	haris	zoolgou
-2	bilal	bio
-3	eman	cs

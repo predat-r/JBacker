@@ -1,4 +1,0 @@
-3
-Emirates 200 3 3 lahore karachi london sydney dubai paris
-QatarAir 300 3 5 dehli agra newyork washington london paris prague jeddah
-PIA 250 3 7 karachi lahore dubai sydney london paris moscow riyadh makkah venice
