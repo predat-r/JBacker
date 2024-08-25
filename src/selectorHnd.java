@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.SwingWorker;
 
 /**
  * Handler for file selection and encryption/compression.
@@ -46,17 +47,40 @@ public class selectorHnd implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         // Clear any previous status message
+
         statusPanel.removeAll();
-        if (mode == 0) {
-            BackupSelectedFile();
-        } else {
-            try {
-                RecoverSelectedFile();
-            } catch (IOException ex) {
-                Logger.getLogger(selectorHnd.class.getName()).log(Level.SEVERE, null, ex);
+        displayWaitingMsg("please Wait");
+        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() {
+                if (mode == 0) {
+                    BackupSelectedFile();
+                } else {
+                    try {
+                        RecoverSelectedFile();
+                    } catch (IOException ex) {
+                        Logger.getLogger(selectorHnd.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                return null;
             }
 
-        }
+            protected void done() {
+                // This method is called on the EDT after doInBackground() finishes
+                String currDir = mode == 0 ? "Files/Backups" : "Files/Restores";
+                filechooser.setCurrentDirectory(new File(currDir));
+                filechooser.rescanCurrentDirectory();
+                statusPanel.removeAll(); // Clear the waiting message
+                JLabel label = new JLabel("Operation completed.");
+                label.setForeground(Color.GREEN);
+                statusPanel.add(label);
+                statusPanel.revalidate();
+                statusPanel.repaint();
+
+            }
+        };
+
+        worker.execute();
     }
 
     public void BackupSelectedFile() {
@@ -114,19 +138,21 @@ public class selectorHnd implements ActionListener {
         Decompressor decompress = new Decompressor(selectedFile);
 
         // Decrypt the file
-        Encryption decrypt = new Encryption(new File("Files/Restores/" + zipFileNameWithoutExt),outputDir, key, mode);
+        Encryption decrypt = new Encryption(new File("Files/Restores/" + zipFileNameWithoutExt), outputDir, key, mode);
 
-        // Display success message
-        JLabel label = new JLabel("Recovery successful!");
-        label.setForeground(Color.GREEN); // Set text color to green
+    }
+
+    public void displayErrorMsg(String error) {
+        JLabel label = new JLabel(error);
+        label.setForeground(Color.BLUE); // Set text color to red
         statusPanel.add(label);
         statusPanel.revalidate();
         statusPanel.repaint();
     }
 
-    public void displayErrorMsg(String error) {
-        JLabel label = new JLabel(error);
-        label.setForeground(Color.RED); // Set text color to red
+    public void displayWaitingMsg(String wait) {
+        JLabel label = new JLabel(wait);
+        label.setForeground(Color.BLUE);
         statusPanel.add(label);
         statusPanel.revalidate();
         statusPanel.repaint();

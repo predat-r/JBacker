@@ -1,0 +1,16 @@
+15
+1	Lahore	Jeddah	7/12/2024	1
+2	Karachi	Dubai	3/8/2024	1
+3	Islamabad	Istanbul	11/5/2024	2
+4	Peshawar	Riyadh	9/22/2024	2
+5	Multan	Cairo	6/30/2024	1
+6	Faisalabad	AbuDhabi	8/18/2024	2
+7	Faisalabad	Istanbul	10/10/2024	1
+8	Lahore	Doha	5/25/2024	2
+9	Karachi	Muscat	4/14/2024	1
+10	Islamabad	Amman	2/9/2024	2
+11	Multan	Manama	12/20/2024	1
+12	Faisalabad	Tehran	7/3/2024	2
+13	Peshawar	Beirut	11/28/2024	1
+14	Lahore	Sharjah	9/15/2024	2
+15	Karachi	Kuwait	6/12/2024 1

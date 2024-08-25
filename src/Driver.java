@@ -1,3 +1,4 @@
+
 import java.security.GeneralSecurityException;
 import java.util.Base64;
 import javax.crypto.SecretKey;
@@ -6,9 +7,8 @@ import javax.crypto.spec.SecretKeySpec;
 public class Driver {
 
     public static SecretKey recoverKey() throws GeneralSecurityException {
-        //get key from project properties
-        String keyString = System.getProperty("ENCRYPTION_KEY");
-        
+        //get key from environment variables
+        String keyString = System.getenv("ENCRYPTION_KEY");
         if (keyString != null) {
             try {
                 // Decode the base64 encoded key
@@ -26,7 +26,7 @@ public class Driver {
     public static void main(String[] args) {
         try {
             SecretKey scrt = recoverKey();
-             Landing lnd = new Landing(scrt);
+            Landing lnd = new Landing(scrt);
         } catch (GeneralSecurityException e) {
             System.err.println("Error: " + e.getMessage());
             e.printStackTrace();
