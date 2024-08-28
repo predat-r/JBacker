@@ -16,7 +16,6 @@ public class View_FrameOne {
     JFileChooser filechooser; // File chooser for selecting files or directories
     JButton selectBtn;      // Button to select a file for backup
     selectorHnd SlcHnd;     // Handler for file selection and backup
-    fileChooseHandler fcHnd; // Handler for file chooser events
     JButton openDirBtn;     // Button to open the selected directory
     openHnd openHnd;        // Handler for opening directory
     SecretKey key;          // Secret key for encryption
@@ -46,7 +45,6 @@ public class View_FrameOne {
 
         // Create file chooser and handlers
         filechooser = new JFileChooser();
-        fcHnd = new fileChooseHandler();
         openHnd = new openHnd(filechooser);
 
         // Create buttons
@@ -62,8 +60,7 @@ public class View_FrameOne {
         // Configure file chooser
         filechooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         filechooser.setControlButtonsAreShown(false);
-        filechooser.addPropertyChangeListener(JFileChooser.DIRECTORY_CHANGED_PROPERTY, fcHnd);
-        String currDir = mode == 0 ?  "C:/Users/mhari/OneDrive/Documents": "Files/Backups";
+        String currDir = mode == 0 ? "C:/Users/mhari/OneDrive/Documents" : "Files/Backups";
         filechooser.setCurrentDirectory(new File(currDir));
         // Configure select button
         selectBtn.setSize(100, 50);

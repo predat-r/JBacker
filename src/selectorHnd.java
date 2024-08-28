@@ -66,7 +66,7 @@ public class selectorHnd implements ActionListener {
             }
 
             protected void done() {
-                // This method is called on the EDT after doInBackground() finishes
+                // This method is called after doInBackground() finishes
                 String currDir = mode == 0 ? "Files/Backups" : "Files/Restores";
                 filechooser.setCurrentDirectory(new File(currDir));
                 filechooser.rescanCurrentDirectory();
@@ -132,14 +132,15 @@ public class selectorHnd implements ActionListener {
 
         // Create a directory for the extracted files based on the ZIP file name
         String zipFileNameWithoutExt = selectedFile.getName().replace(".zip", "");
-        File outputDir = new File("Files/Restores/" + zipFileNameWithoutExt + "DECRYPTED");
 
+        String FileName = zipFileNameWithoutExt.substring(0, zipFileNameWithoutExt.length() - 3); // Remove the last 3 characters ("enc")
+        File outputDir = new File("Files/Restores/" + FileName);
         // Decompress the ZIP file into the created directory
         Decompressor decompress = new Decompressor(selectedFile);
 
         // Decrypt the file
         Encryption decrypt = new Encryption(new File("Files/Restores/" + zipFileNameWithoutExt), outputDir, key, mode);
-
+        cleanupRestores(new File("Files/Restores").listFiles());
     }
 
     public void displayErrorMsg(String error) {
@@ -158,13 +159,51 @@ public class selectorHnd implements ActionListener {
         statusPanel.repaint();
     }
 
-    public void cleanup(File[] backups) throws IOException {
-        if (backups != null) {
-            for (File file : backups) {
-                if (!file.getName().contains("zip")) {
-                    file.delete();
+    public void cleanup(File[] backups) {
+        try {
+            if (backups != null) {
+                for (File file : backups) {
+                    if (!file.getName().contains("zip")) {
+
+                        deleteFile(file);
+
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void cleanupRestores(File[] restores) {
+        try {
+            if (restores != null) {
+                for (File file : restores) {
+                    if (file.getName().contains("enc")) {
+
+                        deleteFile(file);
+
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteFile(File file) {
+        if (file.isDirectory()) {
+            File[] subFiles = file.listFiles();
+            if (subFiles != null) { // Check if the directory is not empty
+                for (File subFile : subFiles) {
+                    deleteFile(subFile); // Recursively delete each subfile/subdirectory
                 }
             }
         }
+        // Delete the file or directory itself after its contents are deleted
+        if (file.exists()) {
+            file.delete();
+        }
     }
+
 }

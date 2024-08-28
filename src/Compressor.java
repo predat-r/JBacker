@@ -2,7 +2,6 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 import java.util.zip.*;
-import javax.crypto.SecretKey;
 
 /**
  * Compressor class for compressing a specified file or directory into a ZIP file.
