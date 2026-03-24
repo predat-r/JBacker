@@ -1,0 +1,39 @@
+# ========================
+# Build Output
+# ========================
+build/
+dist/
+*.class
+*.jar
+
+# ========================
+# NetBeans Project Files
+# ========================
+nbproject/private/
+nbproject/Makefile-*.mk
+nbproject/Package-*.bash
+nbbuild/
+nbdist/
+
+# ========================
+# Runtime / App Data
+# ========================
+Files/
+
+# ========================
+# OS & Editor Artifacts
+# ========================
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.tmp
+*.bak
+
+# ========================
+# IDE & Misc
+# ========================
+.idea/
+*.iml
+*.iws
+*.ipr
